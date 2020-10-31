@@ -4,4 +4,4 @@
 
 docker build -t atlemagnussen/node-quic .
 
-docker run -it -v $PWD:/test /node-quic bash
+docker run -it -v $PWD:/test atlemagnussen/node-quic bash
