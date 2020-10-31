@@ -1,4 +1,4 @@
-'use strict';
+const fs = require("fs");
 
 const key  = fs.readFileSync('./ssl_certs/server.key');
 const cert = fs.readFileSync('./ssl_certs/server.crt');
