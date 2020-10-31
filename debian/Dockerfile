@@ -23,7 +23,7 @@ RUN mkdir -p build && \
     git checkout v15.0.1 -b bra/15.0.1 && \
     # Build Node.js with QUIC
     ./configure --experimental-quic && \
-    CC='ccache gcc' CXX='ccache g++' make -j2 && \
+    CC='ccache gcc' CXX='ccache g++' make -j4 && \
     # Install
     make install PREFIX=/usr/local && \
     rm -rf /build
