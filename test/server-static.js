@@ -15,7 +15,7 @@ console.log("now session handler");
 
 server.on('ready', () => {
     console.log("QUIC server is listening");
-    console.log(`On port ${server.address.port}`);
+    console.log(server);
 });
 
 server.on("session", session => {
