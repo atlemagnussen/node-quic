@@ -12,6 +12,12 @@ const server = createQuicSocket({ endpoint: { port } });
 server.listen({ key, cert, alpn: 'hello' });
 
 console.log("now session handler");
+
+server.on('ready', () => {
+    console.log("QUIC server is listening");
+    console.log(`On port ${server.address.port}`);
+});
+
 server.on("session", session => {
     console.log("on session");
     session.on("stream", (stream) => {
