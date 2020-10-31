@@ -21,7 +21,7 @@ RUN mkdir -p build && \
     cd build && \
     git clone https://github.com/nodejs/node.git && \
     cd node && \
-    git checkout v15.0.1 && \
+    git checkout v15.0.1 -b bra/15.0.1 && \
     # Build Node.js with QUIC
     ./configure --experimental-quic && \
     CC='ccache gcc' CXX='ccache g++' make -j2 && \
