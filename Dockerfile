@@ -1,6 +1,8 @@
 
 FROM ubuntu:18.04
 
+LABEL maintainer="Atle Magnussen <atlemagnussen@gmail.com>"
+
 RUN apt update && \
     apt install -y software-properties-common && \
     add-apt-repository ppa:ubuntu-toolchain-r/test && \
@@ -14,8 +16,6 @@ RUN apt update && \
       python3-distutils && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-ENV NODE_QUIC_REVISION=cee2e5d079ca2b55e421d81df1ad131c1bfeecc6
 
 RUN mkdir -p build && \
     cd build && \
