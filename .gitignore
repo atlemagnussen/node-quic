@@ -1,1 +1,1 @@
-ssl_certs/*
+test/ssl_certs/*
