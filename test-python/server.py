@@ -78,7 +78,7 @@ from aioquic.quic.connection import QuicConnection, END_STATES
 from aioquic.quic.events import StreamDataReceived, StreamReset, DatagramFrameReceived, QuicEvent
 from aioquic.tls import SessionTicket
 
-BIND_ADDRESS = '::1'
+BIND_ADDRESS = '127.0.0.1'
 BIND_PORT = 4433
 ALLOWED_ORIGINS = {'localhost', '192.168.1.16', 'googlechrome.github.io'}
 
@@ -142,6 +142,7 @@ class CounterHandler:
 class QuicTransportProtocol(QuicConnectionProtocol):
 
     def __init__(self, *args, **kwargs) -> None:
+        print("__init__")
         super().__init__(*args, **kwargs)
         self.pending_events = []
         self.handler = None
@@ -187,6 +188,7 @@ class QuicTransportProtocol(QuicConnectionProtocol):
     # length are 16-bit integers.  See
     # https://tools.ietf.org/html/draft-vvv-webtransport-quic-01#section-3.2
     def parse_client_indication(self, bs):
+        print("parse_client_indication")
         while True:
             prefix = bs.read(4)
             if len(prefix) == 0:
@@ -252,6 +254,8 @@ if __name__ == '__main__':
     )
     configuration.load_cert_chain(args.certificate, args.key)
     print("start event loop")
+    print(f"BIND_ADDRESS={BIND_ADDRESS}")
+    print(f"BIND_PORT={BIND_PORT}")
     loop = asyncio.get_event_loop()
     loop.run_until_complete(
         serve(
