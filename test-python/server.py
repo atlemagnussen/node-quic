@@ -153,6 +153,7 @@ class QuicTransportProtocol(QuicConnectionProtocol):
         try:
             if self.is_closing_or_closed():
                 print("is_closing_or_closed")
+                print(f"event.reason_phrase={event.reason_phrase}")
                 return
 
             # If the handler is available, that means the connection has been

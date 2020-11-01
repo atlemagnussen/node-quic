@@ -1,3 +1,5 @@
 test/ssl_certs/*
 test/node
 
+certificate.key
+certificate.pem
