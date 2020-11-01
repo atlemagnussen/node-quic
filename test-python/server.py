@@ -78,7 +78,7 @@ from aioquic.quic.connection import QuicConnection, END_STATES
 from aioquic.quic.events import StreamDataReceived, StreamReset, DatagramFrameReceived, QuicEvent
 from aioquic.tls import SessionTicket
 
-BIND_ADDRESS = '127.0.0.1'
+BIND_ADDRESS = '0.0.0.0'
 BIND_PORT = 4433
 ALLOWED_ORIGINS = {'localhost', '192.168.1.16', 'googlechrome.github.io'}
 
