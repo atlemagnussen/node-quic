@@ -109,7 +109,8 @@ class CounterHandler:
 
     def quic_event_received(self, event: QuicEvent) -> None:
         if isinstance(event, DatagramFrameReceived):
-            payload = str(len(event.data)).encode('ascii')
+            # payload = str(len(event.data)).encode('ascii')
+            payload = str(f"hello {str(event.data)}").encode('ascii')
             self.connection.send_datagram_frame(payload)
 
         if isinstance(event, StreamDataReceived):
