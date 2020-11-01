@@ -78,7 +78,7 @@ from aioquic.quic.connection import QuicConnection, END_STATES
 from aioquic.quic.events import StreamDataReceived, StreamReset, DatagramFrameReceived, QuicEvent
 from aioquic.tls import SessionTicket
 
-BIND_ADDRESS = '0.0.0.0'
+BIND_ADDRESS = '::1'
 BIND_PORT = 4433
 ALLOWED_ORIGINS = {'localhost', '192.168.1.16', 'googlechrome.github.io'}
 
@@ -158,10 +158,12 @@ class QuicTransportProtocol(QuicConnectionProtocol):
             # If the handler is available, that means the connection has been
             # established and the client indication has been processed.
             if self.handler is not None:
+                print("handler is not None")
                 self.handler.quic_event_received(event)
                 return
 
             if isinstance(event, StreamDataReceived) and event.stream_id == 2:
+                print("isinstance and event")
                 self.client_indication_data += event.data
                 if event.end_stream:
                     self.process_client_indication()
