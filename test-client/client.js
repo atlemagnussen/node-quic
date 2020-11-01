@@ -3,7 +3,7 @@ let transport;
 let logEl, urlEl;
 let currentTransportDatagramWriter;
 let streamNumber = 0;
-let btnConnect;
+let btnConnect, btnClose;
 let btnSend;
 let dataTx;
 
@@ -12,6 +12,8 @@ let startTime;
 import { utcNow } from "./dateStuff.js";
 
 const init = () => {
+    btnClose = document.querySelector("#closecon");
+    btnClose.addEventListener("click", () => disconnect() );
     btnConnect = document.querySelector("#connect");
     btnConnect.addEventListener("click", () => connect() );
     btnSend = document.querySelector("#send");
@@ -39,9 +41,11 @@ const setDisabledBtn = (connected) => {
     if (connected) {
         btnConnect.disabled = true;
         btnSend.disabled = false;
+        btnClose.disabled = false;
     } else {
         btnConnect.disabled = false;
         btnSend.disabled = true;
+        btnClose.disabled = true;
     }
 }
 
@@ -81,6 +85,11 @@ const connect = async () => {
 
     readDatagrams(transport);
     acceptUnidirectionalStreams(transport);
+}
+
+const disconnect = () => {
+    if (transport && transport.close)
+        transport.close();
 }
 
 const sendData = async () => {
@@ -173,7 +182,7 @@ const readFromIncomingStream = async (stream, number) => {
             let data = result.value;
             let endTime = utcNow();
             let timeDiff = endTime - startTime;
-            addToEventLog(`Received data on stream #${number}: ${data}, diff: ${timeDiff}`);
+            addToEventLog(`Received data on stream #${number}: ${data}, diff: ${timeDiff}ms`);
         }
     } catch (err) {
         addToEventLog(
