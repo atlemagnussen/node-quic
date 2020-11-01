@@ -2,7 +2,7 @@
 let transport;
 let logEl, urlEl;
 let currentTransportDatagramWriter;
-let streamNumber;
+let streamNumber = 0;
 let btnConnect;
 let btnSend;
 let dataTx;
@@ -135,7 +135,7 @@ const acceptUnidirectionalStreams = async (transport) => {
                 return;
             }
             let stream = result.value;
-            let number = globalThis.streamNumber++;
+            let number = streamNumber++;
             addToEventLog('New incoming unidirectional stream #' + number);
             readFromIncomingStream(stream, number);
         }
