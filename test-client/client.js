@@ -35,6 +35,16 @@ const addToEventLog = (text, severity = 'info') => {
     }
 }
 
+const setDisabledBtn = (connected) => {
+    if (connected) {
+        btnConnect.disabled = true;
+        btnSend.disabled = false;
+    } else {
+        btnConnect.disabled = false;
+        btnSend.disabled = true;
+    }
+}
+
 // "Connect" button handler.
 const connect = async () => {
     let url = urlEl.value;
@@ -49,17 +59,21 @@ const connect = async () => {
     try {
         await transport.ready;
         addToEventLog('Connection ready.');
+        setDisabledBtn(true);
     } catch (err) {
         addToEventLog('Connection failed. ' + err, 'error');
+        setDisabledBtn(false);
         return;
     }
 
     transport.closed
         .then(() => {
             addToEventLog('Connection closed normally.');
+            setDisabledBtn(false);
         })
         .catch(() => {
             addToEventLog('Connection closed abruptly.', 'error');
+            setDisabledBtn(false);
         });
 
     currentTransportDatagramWriter = transport.sendDatagrams().getWriter();
@@ -67,9 +81,6 @@ const connect = async () => {
 
     readDatagrams(transport);
     acceptUnidirectionalStreams(transport);
-
-    document.forms.sending.elements.send.disabled = false;
-    document.getElementById('connect').disabled = true;
 }
 
 const sendData = async () => {
@@ -77,6 +88,7 @@ const sendData = async () => {
     let encoder = new TextEncoder('utf-8');
     let rawData = sending.data.value;
     let data = encoder.encode(rawData);
+    startTime = utcNow();
     try {
         switch (form.sendtype.value) {
             case 'datagram':
@@ -92,7 +104,6 @@ const sendData = async () => {
                 break;
             }
             case 'bidi': {
-                startTime = utcNow();
                 let stream = await transport.createBidirectionalStream();
                 let number = streamNumber++;
                 readFromIncomingStream(stream, number);
