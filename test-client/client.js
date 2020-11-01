@@ -7,6 +7,10 @@ let btnConnect;
 let btnSend;
 let dataTx;
 
+let startTime;
+
+import { utcNow } from "./dateStuff.js";
+
 const init = () => {
     btnConnect = document.querySelector("#connect");
     btnConnect.addEventListener("click", () => connect() );
@@ -88,6 +92,7 @@ const sendData = async () => {
                 break;
             }
             case 'bidi': {
+                startTime = utcNow();
                 let stream = await transport.createBidirectionalStream();
                 let number = streamNumber++;
                 readFromIncomingStream(stream, number);
@@ -155,7 +160,9 @@ const readFromIncomingStream = async (stream, number) => {
                 return;
             }
             let data = result.value;
-            addToEventLog('Received data on stream #' + number + ': ' + data);
+            let endTime = utcNow();
+            let timeDiff = endTime - startTime;
+            addToEventLog(`Received data on stream #${number}: ${data}, diff: ${timeDiff}`);
         }
     } catch (err) {
         addToEventLog(
