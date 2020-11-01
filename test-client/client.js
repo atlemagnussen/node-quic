@@ -22,11 +22,11 @@ const addToEventLog = (text, severity = 'info') => {
     let entry = document.createElement('li');
     entry.innerText = text;
     entry.className = 'log-' + severity;
-    log.appendChild(entry);
+    logEl.appendChild(entry);
 
     if (mostRecentEntry != null &&
         mostRecentEntry.getBoundingClientRect().top <
-        log.getBoundingClientRect().bottom) {
+        logEl.getBoundingClientRect().bottom) {
         entry.scrollIntoView();
     }
 }
