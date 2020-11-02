@@ -142,8 +142,10 @@ const readDatagrams = async (transport) => {
                 addToEventLog('Done reading datagrams!');
                 return;
             }
+            let endTime = utcNow();
+            let timeDiff = endTime - startTime;
             let data = decoder.decode(result.value);
-            addToEventLog('Datagram received: ' + data);
+            addToEventLog(`Datagram received: ${data}, diff ${timeDiff}ms`);
         }
     } catch (err) {
         addToEventLog('Error while reading datagrams: ' + err, 'error');
